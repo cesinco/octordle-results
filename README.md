@@ -91,7 +91,7 @@ This has the effect of removing the text from each cell, but leaving the color b
 
 ## Character-based approaches
 
-You may want or need to display your guesses in character form raterh thanin image form. There are several ways you can do this.
+You may want or need to display your guesses in character form raterh than in image form. There are several ways you can do this.
 
 ## Game boards arranged 1 column x 8 rows
 
@@ -320,8 +320,7 @@ Board: 7     Board: 8
 ⬛⬛⬛⬛⬛ 🟩🟩🟩🟩🟩 
 </pre>
 
-
-
+## Game boards arranged 4 columns x 2 rows
 
 ```js
 nbsp = (" ".repeat(5))
@@ -378,8 +377,6 @@ Board: 3     Board: 4     Board: 5     Board: 6
 ⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ 
 ⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ 
 </pre>
-
-
 
 ## Game boards arranged 8 columns x 1 row
 
