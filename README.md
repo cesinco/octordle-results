@@ -239,6 +239,7 @@ The following code, when executed in the debugger window you have opened already
 ```js
 nbsp = (" ".repeat(5))
 // For Facebook, use nbsp = (".".repeat(14))
+dictGuessToSymbol = {"rgb(24, 26, 27)":"⬛", "rgb(255, 204, 0)":"🟨", "rgb(0, 204, 136)":"🟩"}
 results = "\n"
 for (i = 1; i < 5; i++) {
 	for (board = 1; board < 3; board++) {
@@ -325,6 +326,7 @@ Board: 7     Board: 8
 ```js
 nbsp = (" ".repeat(5))
 // For Facebook, use nbsp = (".".repeat(14))
+dictGuessToSymbol = {"rgb(24, 26, 27)":"⬛", "rgb(255, 204, 0)":"🟨", "rgb(0, 204, 136)":"🟩"}
 results = "\n"
 for (i = 1; i < 3; i++) {
 	for (board = 1; board < 5; board++) {
@@ -385,8 +387,8 @@ The following code, when executed in the debugger window you have opened already
 ```js
 tabchar = "\t"
 // For Facebook, use tabchar = (".".repeat(14))
-results = "Board: 1\tBoard: 2\tBoard: 3\tBoard: 4\tBoard: 5\tBoard: 6\tBoard: 7\tBoard: 8"
 dictGuessToSymbol = {"rgb(24, 26, 27)":"⬛", "rgb(255, 204, 0)":"🟨", "rgb(0, 204, 136)":"🟩"}
+results = "Board: 1\tBoard: 2\tBoard: 3\tBoard: 4\tBoard: 5\tBoard: 6\tBoard: 7\tBoard: 8"
 for (row = 1; row < 14; row++) {
 	rowSymbols = "\n"
 	for (board = 1; board < 9; board++) {
