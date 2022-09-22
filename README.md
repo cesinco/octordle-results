@@ -94,11 +94,11 @@ This has the effect of removing the text from each cell, but leaving the color b
 
 ## Character-based approaches
 
-You may want or need to display your guesses in character form raterh than in image form. There are several ways you can do this.
+You may want or need to display your guesses in character form rather than in image form. There are several ways you can do this.
 
 ## Game boards arranged 2 columns x 4 rows
 
-The following code, when executed in the debugger window you have opened already, will produce a a result consisting of two columns with boards 1 through 4 displayed stacked above boards 5 through 8. Make sure you have refreshed the browser to restore the text, if you ran the code in the "Graphical Approach".
+The following code, when executed in the debugger window you have opened already, will produce a a result consisting of two columns with boards 1, 2 displayed stacked above boards 3, 4 and those consequently above boards 5, 6, and finally boards 7, 8. Make sure you have refreshed the browser to restore the text, if you ran the code in the "Graphical Approach".
 
 **Important** Any layout that has multiple columns may require adjustment to the code below to get the columns to display in an aligned manner. For example, Facebook converts tab characters to spaces, so the tab character `\t` does not align text, but instead just adds one space. Furthermore, converting a tab into multiple consecutive spaces does not work because browsers collapse consecutive spaces into one space when viewing HTML. Facebook does not allow you to use (or at least use well) the non-breaking space character so the least instrusive character that is printable is probably the period.
 
