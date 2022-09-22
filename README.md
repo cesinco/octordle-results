@@ -4,7 +4,7 @@ Display results of octordle game graphically or in character-based mode
 
 ## Background
 
-Those of you who enjoy playing octordle (a variation of wordle that presents 8 wordle-like boards simultaneously with a maximum of 13 guesses permitted to solve all 8 boards) may be frustrated that the the "sharing" functions only displays the count of guesses for each board, but not the actual display of guesses as the other wordle variations display. Typically, the sharing functionality /inserts something like the following into your clipboard:
+Those of you who enjoy playing octordle (a variation of wordle that presents 8 wordle-like boards simultaneously with a maximum of 13 guesses permitted to solve all 8 boards) may be frustrated that the the "sharing" functions only displays the count of guesses for each board, but not the actual display of guesses as the other wordle variations display. Typically, the sharing functionality inserts something like the following into your clipboard:
 
 <pre>
 Daily Octordle #83
