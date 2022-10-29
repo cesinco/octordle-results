@@ -90,7 +90,7 @@ document.querySelectorAll('div[class="letter-content"]').forEach(function (x) {
 
 This has the effect of removing the text from each cell, but leaving the color behind so that you can take a screenshot and share the image without revealing your actual guesses. The resulting image after screen capture might look something like (I prefer to play octordle in widescreen mode so the screen capture reflects this layout):
 
-![octordle results as a screen capture](/images/octordle-results.png)
+![octordle results as a screen capture](images/octordle-results.png)
 
 ## Character-based approaches
 
@@ -241,7 +241,27 @@ https://sedecordlegame.org?challenge=cGVhY2gsdHJhaXQscXVpZXQsZ2lhbnQsZGVuc2UsZmF
 
 But this obviously only show which of the 16 boards you managed to complete within the 21 tries allowed.
 
-## Character-based solution
+## Graphical Approach
+
+Again, the easy approach is to blank out the guesses and then download the PNG image for your guesses
+
+```js
+document.querySelectorAll('div[class="Row-letter"]').forEach(function (x) {
+  x.innerText = "";
+});
+```
+
+Then use the modal window that is presented on completion of the puzzle to download an image of your guesses, like the following:
+
+![Sedeordle results as a screen capture](images/sedecordle-results.png)
+
+If the modal window has disappeared from view, simply execute the following in your debugger window:
+
+```js
+document.getElementsByClassName("modal_finish poof")[0].classList.add('active');
+```
+
+## Character-based Approach
 
 ```js
 nbsp = " ".repeat(5);
@@ -463,4 +483,123 @@ Board: 15.....Board: 16
 ⬛⬛⬛⬛⬛ ⬜⬜⬜⬜⬜ 
 ⬛⬛⬛⬛⬛ ⬜🟨⬜⬜⬜ 
 ⬛⬛⬛⬛⬛ 🟩🟩🟩🟩🟩 
+</pre>
+
+# octordlewordle-results
+
+Brought to you by the same people who provide sedecordle above, this is similar to octordle and uses just some minor tweaking of the code for sedecordle
+
+## Graphical Approach
+
+Again, the easy approach is to blank out the guesses and then download the PNG image for your guesses
+
+```js
+document.querySelectorAll('div[class="Row-letter"]').forEach(function (x) {
+  x.innerText = "";
+});
+```
+
+Then use the modal window that is presented on completion of the puzzle to download an image of your guesses, like the following:
+
+![Octordlewordle results as a screen capture](images/octordlewordle-results.png)
+
+If the modal window has disappeared from view, simply execute the following in your debugger window:
+
+```js
+document.getElementsByClassName("modal_finish poof")[0].classList.add('active');
+```
+
+## Character-based Approach
+
+```js
+dictGuessToSymbol = {"no-match":"⬜", "word-match":"🟨", "exact-match":"🟩", "no-guess":"⬛"} // New version
+results = ""
+nbsp = (".".repeat(14))
+for (i = 0; i < 4; i++) {
+	for (board = 0; board < 2; board++) {
+		results += "Board: " + (board + 1 + (2 * (i))) + (board < 1 ? nbsp : "")
+	}
+	for (row = 0; row < 13; row++) {
+		rowSymbols = "\n"
+		for (board = 0; board < 2; board++) {
+			if (document.getElementsByClassName("game_rows")[board + (2 * (i))].getElementsByClassName("Row")[row].classList.contains("Row-not-using")) {
+				rowSymbols += (dictGuessToSymbol["no-guess"]).repeat(5) + " "
+			} else {
+				for (col = 0; col < 5; col++) {
+					letr = document.getElementsByClassName("game_rows")[board + (2 * (i))].getElementsByClassName("Row")[row].getElementsByClassName("Row-letter")[col]
+					if (letr.classList.contains("letter-absent")) {
+						rowSymbols += dictGuessToSymbol["no-match"]
+					} else if (letr.classList.contains("letter-elsewhere")) {
+						rowSymbols += dictGuessToSymbol["word-match"]
+					} else {
+						rowSymbols += dictGuessToSymbol["exact-match"]
+					}
+				}
+				rowSymbols += " "
+			}
+		}
+		results += rowSymbols
+	}
+	results += "\n"
+}
+console.log(results)
+```
+
+<pre>
+Board: 1......Board: 2
+⬜⬜⬜🟨⬜ ⬜⬜⬜🟨⬜ 
+🟩⬜⬜⬜🟨 ⬜🟨⬜⬜🟨 
+⬜⬜🟩⬜⬜ 🟨⬜⬜⬜⬜ 
+🟩⬜⬜⬜⬜ ⬜⬜⬜🟨⬜ 
+🟩⬜⬜⬜⬜ ⬜⬜⬜⬜🟨 
+🟩🟩🟩🟩🟩 ⬜⬜⬜🟨🟩 
+⬛⬛⬛⬛⬛ 🟩⬜⬜⬜🟩 
+⬛⬛⬛⬛⬛ ⬜🟨⬜⬜⬜ 
+⬛⬛⬛⬛⬛ ⬜⬜⬜🟨⬜ 
+⬛⬛⬛⬛⬛ ⬜⬜🟨⬜⬜ 
+⬛⬛⬛⬛⬛ 🟩🟩🟩🟩🟩 
+⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ 
+⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ 
+Board: 3......Board: 4
+⬜⬜🟩⬜⬜ ⬜⬜🟨⬜🟨 
+⬜⬜⬜⬜⬜ 🟩⬜⬜⬜⬜ 
+⬜🟨⬜⬜⬜ 🟨⬜⬜⬜⬜ 
+⬜⬜⬜⬜🟨 🟩🟩⬜🟨🟨 
+⬜⬜⬜🟨⬜ 🟩🟩🟩🟩🟩 
+⬜⬜⬜⬜⬜ ⬛⬛⬛⬛⬛ 
+🟨⬜🟩🟨⬜ ⬛⬛⬛⬛⬛ 
+🟨⬜⬜⬜🟨 ⬛⬛⬛⬛⬛ 
+🟩🟩🟩🟩🟩 ⬛⬛⬛⬛⬛ 
+⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ 
+⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ 
+⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ 
+⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ 
+Board: 5......Board: 6
+⬜🟨⬜🟨🟨 ⬜⬜🟩🟨⬜ 
+⬜🟨⬜⬜⬜ ⬜⬜⬜⬜⬜ 
+⬜⬜⬜⬜⬜ ⬜⬜⬜⬜⬜ 
+⬜🟨⬜⬜⬜ ⬜⬜⬜⬜🟨 
+⬜🟨⬜⬜⬜ ⬜⬜⬜🟩⬜ 
+⬜🟩⬜⬜⬜ ⬜🟩⬜⬜🟩 
+⬜🟩⬜⬜⬜ 🟩🟩🟩🟩🟩 
+⬜🟩⬜⬜⬜ ⬛⬛⬛⬛⬛ 
+🟩⬜⬜⬜⬜ ⬛⬛⬛⬛⬛ 
+⬜⬜⬜⬜⬜ ⬛⬛⬛⬛⬛ 
+⬜⬜⬜🟨🟨 ⬛⬛⬛⬛⬛ 
+🟩🟩🟩🟩🟩 ⬛⬛⬛⬛⬛ 
+⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ 
+Board: 7......Board: 8
+🟨⬜🟨🟨⬜ ⬜⬜⬜⬜⬜ 
+🟨⬜⬜⬜⬜ 🟨⬜🟨⬜⬜ 
+⬜⬜⬜⬜⬜ 🟨🟨⬜⬜⬜ 
+🟨⬜⬜⬜🟩 🟨⬜⬜🟩⬜ 
+🟨⬜⬜🟨⬜ 🟨⬜⬜⬜🟨 
+🟨🟩⬜⬜⬜ 🟨⬜⬜⬜⬜ 
+⬜🟩🟨🟨⬜ ⬜⬜⬜⬜⬜ 
+🟩🟩🟩🟩🟩 ⬜⬜🟨⬜⬜ 
+⬛⬛⬛⬛⬛ ⬜⬜⬜⬜🟩 
+⬛⬛⬛⬛⬛ 🟩🟩🟩🟩🟩 
+⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ 
+⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ 
+⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ 
 </pre>
