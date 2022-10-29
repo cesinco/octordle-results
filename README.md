@@ -224,7 +224,7 @@ Board: 7.....Board: 8
 
 # sedecordle-results
 
-Similar to the solution for the octordle game above, we can extend something similar to the [sedecord game](https://sedecordlegame.org/)
+Similar to the solution for the octordle game above, we can extend something similar to the [sedecordle game](https://sedecordlegame.org/)
 
 The results are normally displayed in a simple grid, something like:
 
