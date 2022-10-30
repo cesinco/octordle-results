@@ -246,7 +246,7 @@ But this obviously only show which of the 16 boards you managed to complete with
 Again, the easy approach is to blank out the guesses and then download the PNG image for your guesses
 
 ```js
-document.querySelectorAll('div[class="Row-letter"]').forEach(function (x) {
+document.querySelectorAll('div[class*="Row-letter"]').forEach(function (x) {
   x.innerText = "";
 });
 ```
@@ -494,7 +494,7 @@ Brought to you by the same people who provide sedecordle above, this is similar 
 Again, the easy approach is to blank out the guesses and then download the PNG image for your guesses
 
 ```js
-document.querySelectorAll('div[class="Row-letter"]').forEach(function (x) {
+document.querySelectorAll('div[class*="Row-letter"]').forEach(function (x) {
   x.innerText = "";
 });
 ```
