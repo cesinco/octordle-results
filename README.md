@@ -512,9 +512,16 @@ document.getElementsByClassName("modal_finish poof")[0].classList.add('active');
 ## Character-based Approach
 
 ```js
-dictGuessToSymbol = {"no-match":"⬜", "word-match":"🟨", "exact-match":"🟩", "no-guess":"⬛"} // New version
-results = ""
+nbsp = " ".repeat(5);
+// For Facebook, use nbsp = (".".repeat(14))
 nbsp = (".".repeat(14))
+dictGuessToSymbol = {
+  "no-match": "⬜",
+  "word-match": "🟨",
+  "exact-match": "🟩",
+  "no-guess": "⬛",
+};
+results = ""
 for (i = 0; i < 4; i++) {
 	for (board = 0; board < 2; board++) {
 		results += "Board: " + (board + 1 + (2 * (i))) + (board < 1 ? nbsp : "")
@@ -602,4 +609,35 @@ Board: 7......Board: 8
 ⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ 
 ⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ 
 ⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ 
+</pre>
+
+# General Hints
+
+For all these Wordle clones that use multiple "boards", I find using one of the following sets of starter words to go along way in helping me solve the puzzles in the fewest guesses possible. Set 2 and 3 are almost identical - depends if you prefer to make a guess that contains the letter "C" vs one that contains the letter "G". I have typically used Set 1, but that's mostly due to muscle memory.
+
+## Set 1
+<pre>
+STERN
+AUDIO
+LYMPH
+</pre>
+
+## Set 2
+<pre>
+MEATY
+ROUND
+CLIPS
+</pre>
+
+## Set 3
+<pre>
+MEATY
+PROUD
+SLING
+</pre>
+
+For the [nerdle](https://nerdlegame.com/) game where the objective is to guess numbers and operators that create a mathematical equation, I usually guess the following because it provides 6 out of 10 possible digits, one operator, and positions the equality symbol in the middle of one of 3 possible positions.
+
+<pre>
+14+53=67
 </pre>
