@@ -735,7 +735,9 @@ for (cell = 0; cell < (16 * 6 + 1) * 4; cell++) {
 }
 
 // Prepare to create the image in the DOM - first we need a canvas element - delete it if it already exists
-document.getElementById("canvas1").outerHTML = "";
+if (document.getElementById("canvas1")) {
+	document.getElementById("canvas1").outerHTML = "";
+}
 var canv = document.createElement('canvas');
 // This will be a tiny image but easier to manipulate pixels in blocks of 1 than in blocks of 4, 9, 16
 // We can always use an image processing tool like DotNet Paint and and resize
