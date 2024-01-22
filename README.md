@@ -611,6 +611,158 @@ Board: 7......Board: 8
 ⬛⬛⬛⬛⬛ ⬛⬛⬛⬛⬛ 
 </pre>
 
+# doutrigordle-results
+
+Duotrigordle is yet another clone, this one presenting you with 32  5-letter words to be solved. I wasn't happy with their "score reporting" which looked like this (as an example):
+
+<pre>
+Daily Duotrigordle #690
+Guesses: 34/37
+3️⃣3️⃣ 2️⃣8️⃣ 2️⃣9️⃣ 0️⃣7️⃣
+0️⃣9️⃣ 0️⃣8️⃣ 1️⃣0️⃣ 1️⃣1️⃣
+3️⃣1️⃣ 3️⃣0️⃣ 1️⃣4️⃣ 0️⃣6️⃣
+1️⃣2️⃣ 0️⃣4️⃣ 1️⃣3️⃣ 3️⃣4️⃣
+0️⃣5️⃣ 1️⃣5️⃣ 0️⃣3️⃣ 1️⃣6️⃣
+1️⃣7️⃣ 1️⃣8️⃣ 1️⃣9️⃣ 2️⃣0️⃣
+2️⃣1️⃣ 2️⃣2️⃣ 2️⃣3️⃣ 2️⃣7️⃣
+3️⃣2️⃣ 2️⃣5️⃣ 2️⃣6️⃣ 2️⃣4️⃣
+https://duotrigordle.com/
+</pre>
+
+I wanted to have a graphical visualization so the following JavaScript can be used to convert the score into graphical output, which now looks like this (for the same game):
+
+![Duotrigordle results as a graphical output](images/duotrigordle-results.png)
+
+```js
+// Get a collection of the 32 boards
+boards_coll = document.getElementsByClassName("_board_oakqo_1");
+
+// Prepare an empty array to which we will add the colors based on guesses
+boards_colors =  new Array()
+for (b = 0; b < boards_coll.length; b++) {
+	cells_colors = new Array();
+	// Fill the 37 * 5 array with default color: black, alpha=255
+	for (i = 0; i < 37 * 5; i++) {
+		cells_colors[i] = [0, 0, 0, 255];
+	}
+	
+	// Get a collection of "cells" belonging to this board - each will have two class names
+	// one constant, and one variable that tells us which color the cell is
+	cells_coll = boards_coll[b].getElementsByClassName("_cell_oakqo_100");
+	
+	// Iterate through each cell and determine the color
+	for (c = 0; c < cells_coll.length; c++) {
+		cell_class = cells_coll[c].className
+		if (cell_class.includes("yellow")) {
+			// Overwrite default color (black) with yellow, alpha=255
+			cells_colors[c] = [255, 255, 0, 255];
+		} else if (cell_class.includes("green")) {
+			// Overwrite default color (black) with green, alpha=255
+			cells_colors[c] = [0, 255, 0, 255];
+		} else {
+			// Overwrite default color (black) with grey, alpha=255
+			cells_colors[c] = [128, 128, 128, 255];
+		}
+	}
+	// If the word was solved early, remaining rows in that column of guesses will not exist
+	// and the color values will remain set to their default color: black, alpha=255
+	
+	// Add the cell colors to the current board
+	boards_colors.push(cells_colors)
+}
+
+// In order to create the image, we need to add borders in addition to iterating over the cell colors
+arr_data = new Array();
+
+// Create top border
+for (cell = 0; cell < (16 * 6 + 1) * 4; cell++) {
+	arr_data.push(255);
+}
+
+// We iterate row first order because that is how the image array requires it
+// This will create the top section of 16 words
+for (row = 0; row < 37; row++) {
+	// Create the first column (border)
+	arr_data.push(255)
+	arr_data.push(255)
+	arr_data.push(255)
+	arr_data.push(255)
+	for (board = 0; board < 16; board++) {
+		b_colors = boards_colors[board]
+		for (cell = 0; cell < 5; cell++) {
+			for (rgba = 0; rgba < 4; rgba++) {
+				arr_data.push(boards_colors[board][row * 5 + cell][rgba])
+			}
+		}
+		// Create a column divider between boards or the last column (border)
+		arr_data.push(255)
+		arr_data.push(255)
+		arr_data.push(255)
+		arr_data.push(255)
+	}
+}
+
+// Create middle border
+for (cell = 0; cell < (16 * 6 + 1) * 4; cell++) {
+	arr_data.push(255);
+}
+
+// This will create the bottom section of 16 words
+for (row = 0; row < 37; row++) {
+	// Create the first column (border)
+	arr_data.push(255)
+	arr_data.push(255)
+	arr_data.push(255)
+	arr_data.push(255)
+	for (board = 16; board < 32; board++) {
+		b_colors = boards_colors[board]
+		for (cell = 0; cell < 5; cell++) {
+			for (rgba = 0; rgba < 4; rgba++) {
+				arr_data.push(boards_colors[board][row * 5 + cell][rgba])
+			}
+		}
+		// Create a column divider between boards or the last column (border)
+		arr_data.push(255)
+		arr_data.push(255)
+		arr_data.push(255)
+		arr_data.push(255)
+	}
+}
+
+// Create bottom border
+for (cell = 0; cell < (16 * 6 + 1) * 4; cell++) {
+	arr_data.push(255);
+}
+
+// Prepare to create the image in the DOM - first we need a canvas element - delete it if it already exists
+document.getElementById("canvas1").outerHTML = "";
+var canv = document.createElement('canvas');
+// This will be a tiny image but easier to manipulate pixels in blocks of 1 than in blocks of 4, 9, 16
+// We can always use an image processing tool like DotNet Paint and and resize
+// the image 800% using the Nearest Neighbor resampling method to prevent blurring
+canv.width = 97;
+canv.height = 77;
+canv.id = 'canvas1';
+
+// Add the canvas to the body element
+document.body.appendChild(canv); 
+
+context = canv.getContext("2d");
+
+// Retrieve the image data - by default, it will contain all 0 values (black, alpha=0 i.e. transparent)
+imgData = context.getImageData(0, 0, 97, 77)
+var data = imgData.data;
+
+// Overwrite the existing image data with our own
+for (i = 0; i < arr_data.length; i++) {
+	imgData.data[i] = arr_data[i];
+}
+
+// Update the image on the canvas
+context.putImageData(imgData, 0, 0);
+```
+
+
 # General Hints
 
 For all these Wordle clones that use multiple "boards", I find using one of the following sets of starter words to go along way in helping me solve the puzzles in the fewest guesses possible. Set 2 and 3 are almost identical - depends if you prefer to make a guess that contains the letter "C" vs one that contains the letter "G". I have typically used Set 1, but that's mostly due to muscle memory.
