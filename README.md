@@ -631,9 +631,28 @@ https://duotrigordle.com/
 
 I wanted to have a graphical visualization so the following JavaScript can be used to convert the score into graphical output, which now looks like this (for the same game):
 
-![Duotrigordle results as a graphical output](images/duotrigordle-results.png)
+### Duotrigordle results as a graphical output using block length 1
+
+![Duotrigordle results as a graphical output using block length 1](images/duotrigordle-results_1.png)
+
+
+### Duotrigordle results as a graphical output using block length 2
+
+![Duotrigordle results as a graphical output using block length 2](images/duotrigordle-results_2.png)
+
+### Duotrigordle results as a graphical output using block length 4
+
+![Duotrigordle results as a graphical output using block length 4](images/duotrigordle-results_4.png)
+
+
+### Duotrigordle results as a graphical output using block length 8
+
+![Duotrigordle results as a graphical output using block length 8](images/duotrigordle-results_8.png)
 
 ```js
+block_length = 8 // Use 1 for the smallest possible image or higher integers to increase the overall image size
+// Note that borders will always be 1 pixel wide regardless of block_length setting above 
+
 // Get a collection of the 32 boards
 boards_coll = document.getElementsByClassName("_board_oakqo_1");
 
@@ -642,28 +661,40 @@ boards_colors =  new Array()
 for (b = 0; b < boards_coll.length; b++) {
 	cells_colors = new Array();
 	// Fill the 37 * 5 array with default color: black, alpha=255
-	for (i = 0; i < 37 * 5; i++) {
+	for (i = 0; i < 37 * 5 * (block_length * block_length); i++) { // Reserve a 4 x 4 pixel square for each block)
 		cells_colors[i] = [0, 0, 0, 255];
 	}
 	
 	// Get a collection of "cells" belonging to this board - each will have two class names
 	// one constant, and one variable that tells us which color the cell is
 	cells_coll = boards_coll[b].getElementsByClassName("_cell_oakqo_100");
+	//console.log(`Board ${b+1}, # rows = ${cells_coll.length/5}`)
 	
-	// Iterate through each cell and determine the color
-	for (c = 0; c < cells_coll.length; c++) {
-		cell_class = cells_coll[c].className
-		if (cell_class.includes("yellow")) {
-			// Overwrite default color (black) with yellow, alpha=255
-			cells_colors[c] = [255, 255, 0, 255];
-		} else if (cell_class.includes("green")) {
-			// Overwrite default color (black) with green, alpha=255
-			cells_colors[c] = [0, 255, 0, 255];
-		} else {
-			// Overwrite default color (black) with grey, alpha=255
-			cells_colors[c] = [128, 128, 128, 255];
+	for (col=0; col < 5; col++) { // Cycle through each column of 5 letters (* 4 pixels)
+		for (row = 0; row < /* 37 */ cells_coll.length/5; row++) { // Cycle through each row in the word column
+			c = col + row * 5 // Calculate the index into the colored tiles
+			cell_class = cells_coll[c].className
+			if (cell_class.includes("yellow")) {
+				// Overwrite default color (black) with yellow, alpha=255
+				arr_rgba = [255, 255, 0, 255];
+			} else if (cell_class.includes("green")) {
+				// Overwrite default color (black) with green, alpha=255
+				arr_rgba = [0, 255, 0, 255];
+			} else {
+				// Overwrite default color (black) with grey, alpha=255
+				arr_rgba = [128, 128, 128, 255]
+			}
+			//if (b==0) {
+			//	console.log(col, c, arr_rgba)
+			//}
+			for (kr=0; kr < block_length; kr++) { // Cycle through the array block_length times for each row to create the "depth" of block_length pixels of each block
+				for (kc=0; kc < block_length; kc++) {
+					cells_colors[(row * block_length + kr) * 5 * block_length + col * block_length + kc] = arr_rgba;
+				}
+			}
 		}
 	}
+	
 	// If the word was solved early, remaining rows in that column of guesses will not exist
 	// and the color values will remain set to their default color: black, alpha=255
 	
@@ -675,62 +706,72 @@ for (b = 0; b < boards_coll.length; b++) {
 arr_data = new Array();
 
 // Create top border
-for (cell = 0; cell < (16 * 6 + 1) * 4; cell++) {
+for (cell = 0; cell < (16 * 5 * block_length + 17) * 4; cell++) { // The hard-coded 4 is for the individual rgba values
 	arr_data.push(255);
 }
 
-// We iterate row first order because that is how the image array requires it
+// Reshuffle the pixels that are currently stored column by column (32 columns in all)
+// so that they are spread across 16 consecutive columns
+
 // This will create the top section of 16 words
 for (row = 0; row < 37; row++) {
-	// Create the first column (border)
-	arr_data.push(255)
-	arr_data.push(255)
-	arr_data.push(255)
-	arr_data.push(255)
-	for (board = 0; board < 16; board++) {
-		b_colors = boards_colors[board]
-		for (cell = 0; cell < 5; cell++) {
-			for (rgba = 0; rgba < 4; rgba++) {
-				arr_data.push(boards_colors[board][row * 5 + cell][rgba])
+	for (kr=0; kr < block_length; kr++) { // For each physical row, cycle through the array 4 times to create the "depth" of 4 pixels of each block
+		// Create the first column (border)
+		arr_data.push(255)
+		arr_data.push(255)
+		arr_data.push(255)
+		arr_data.push(255)
+		for (board = 0; board < 16; board++) {
+			b_colors = boards_colors[board]
+			for (col = 0; col < 5; col++) {
+				for (kc=0; kc < block_length; kc++) {
+					for (rgba = 0; rgba < 4; rgba++) {
+						arr_data.push(b_colors[(row * block_length + kr) * 5 * block_length + col * block_length + kc][rgba])
+					}
+				}
 			}
+			// Create a column divider between boards or the last column (border)
+			arr_data.push(255)
+			arr_data.push(255)
+			arr_data.push(255)
+			arr_data.push(255)
 		}
-		// Create a column divider between boards or the last column (border)
-		arr_data.push(255)
-		arr_data.push(255)
-		arr_data.push(255)
-		arr_data.push(255)
 	}
 }
 
 // Create middle border
-for (cell = 0; cell < (16 * 6 + 1) * 4; cell++) {
+for (cell = 0; cell < (16 * 5 * block_length + 17) * 4; cell++) { // The hard-coded 4 is for the individual rgba values
 	arr_data.push(255);
 }
 
 // This will create the bottom section of 16 words
 for (row = 0; row < 37; row++) {
-	// Create the first column (border)
-	arr_data.push(255)
-	arr_data.push(255)
-	arr_data.push(255)
-	arr_data.push(255)
-	for (board = 16; board < 32; board++) {
-		b_colors = boards_colors[board]
-		for (cell = 0; cell < 5; cell++) {
-			for (rgba = 0; rgba < 4; rgba++) {
-				arr_data.push(boards_colors[board][row * 5 + cell][rgba])
+	for (kr=0; kr < block_length; kr++) { // For each physical row, cycle through the array 4 times to create the "depth" of 4 pixels of each block
+		// Create the first column (border)
+		arr_data.push(255)
+		arr_data.push(255)
+		arr_data.push(255)
+		arr_data.push(255)
+		for (board = 16; board < 32; board++) {
+			b_colors = boards_colors[board]
+			for (col = 0; col < 5; col++) {
+				for (kc=0; kc < block_length; kc++) {
+					for (rgba = 0; rgba < 4; rgba++) {
+						arr_data.push(b_colors[(row * block_length + kr) * 5 * block_length + col * block_length + kc][rgba])
+					}
+				}
 			}
+			// Create a column divider between boards or the last column (border)
+			arr_data.push(255)
+			arr_data.push(255)
+			arr_data.push(255)
+			arr_data.push(255)
 		}
-		// Create a column divider between boards or the last column (border)
-		arr_data.push(255)
-		arr_data.push(255)
-		arr_data.push(255)
-		arr_data.push(255)
 	}
 }
 
 // Create bottom border
-for (cell = 0; cell < (16 * 6 + 1) * 4; cell++) {
+for (cell = 0; cell < (16 * 5 * block_length + 17) * 4; cell++) { // The hard-coded 4 is for the individual rgba values
 	arr_data.push(255);
 }
 
@@ -739,20 +780,24 @@ if (document.getElementById("canvas1")) {
 	document.getElementById("canvas1").outerHTML = "";
 }
 var canv = document.createElement('canvas');
-// This will be a tiny image but easier to manipulate pixels in blocks of 1 than in blocks of 4, 9, 16
-// We can always use an image processing tool like DotNet Paint and and resize
-// the image 800% using the Nearest Neighbor resampling method to prevent blurring
-canv.width = 97;
-canv.height = 77;
+
+// By changing the size of block_length, we can change the size of the final output
+// while still maintaning a i-pixel wide border line around and between columns
+// We can also use an image processing tool like DotNet Paint and and resize
+// the image using the Nearest Neighbor resampling method to prevent blurring
+canv_width = (16 * 5 * block_length + 17) // There are 16 columns of guesses, each having 5 letters represented by a width of block_length + 17 border columns of 1 pixel each
+canv.width = canv_width;
+canv_height = (37 * 2 * block_length + 3); // There are 37 rows of guesses, spread over 2 major rows represented by a height of block_length + 3 border columns of 1 pixel each
+canv.height = canv_height
 canv.id = 'canvas1';
 
 // Add the canvas to the body element
-document.body.appendChild(canv); 
+document.body.appendChild(canv);
 
 context = canv.getContext("2d");
 
 // Retrieve the image data - by default, it will contain all 0 values (black, alpha=0 i.e. transparent)
-imgData = context.getImageData(0, 0, 97, 77)
+imgData = context.getImageData(0, 0, canv_width, canv_height)
 var data = imgData.data;
 
 // Overwrite the existing image data with our own
