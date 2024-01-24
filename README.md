@@ -631,16 +631,16 @@ https://duotrigordle.com/
 
 I wanted to have a graphical visualization so the following JavaScript can be used to convert the score into graphical output, which now looks like this (for the same game):
 
-### Duotrigordle results as a graphical output using block length 1
+### Duotrigordle results as a graphical output using block length 1 (rescaled 8x)
 
 ![Duotrigordle results as a graphical output using block length 1](images/duotrigordle-results_1.png)
 
 
-### Duotrigordle results as a graphical output using block length 2
+### Duotrigordle results as a graphical output using block length 2 (rescaled 4x)
 
 ![Duotrigordle results as a graphical output using block length 2](images/duotrigordle-results_2.png)
 
-### Duotrigordle results as a graphical output using block length 4
+### Duotrigordle results as a graphical output using block length 4 (rescaled 2x)
 
 ![Duotrigordle results as a graphical output using block length 4](images/duotrigordle-results_4.png)
 
