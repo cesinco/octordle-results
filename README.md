@@ -616,16 +616,16 @@ Board: 7......Board: 8
 Duotrigordle is yet another clone, this one presenting you with 32  5-letter words to be solved. I wasn't happy with their "score reporting" which looked like this (as an example):
 
 <pre>
-Daily Duotrigordle #690
-Guesses: 34/37
-3️⃣3️⃣ 2️⃣8️⃣ 2️⃣9️⃣ 0️⃣7️⃣
-0️⃣9️⃣ 0️⃣8️⃣ 1️⃣0️⃣ 1️⃣1️⃣
-3️⃣1️⃣ 3️⃣0️⃣ 1️⃣4️⃣ 0️⃣6️⃣
-1️⃣2️⃣ 0️⃣4️⃣ 1️⃣3️⃣ 3️⃣4️⃣
-0️⃣5️⃣ 1️⃣5️⃣ 0️⃣3️⃣ 1️⃣6️⃣
-1️⃣7️⃣ 1️⃣8️⃣ 1️⃣9️⃣ 2️⃣0️⃣
-2️⃣1️⃣ 2️⃣2️⃣ 2️⃣3️⃣ 2️⃣7️⃣
-3️⃣2️⃣ 2️⃣5️⃣ 2️⃣6️⃣ 2️⃣4️⃣
+Daily Duotrigordle #691
+Guesses: 35/37
+3️⃣2️⃣ 0️⃣4️⃣ 3️⃣1️⃣ 3️⃣0️⃣
+2️⃣9️⃣ 3️⃣4️⃣ 0️⃣6️⃣ 3️⃣3️⃣
+2️⃣3️⃣ 2️⃣4️⃣ 2️⃣5️⃣ 0️⃣7️⃣
+0️⃣8️⃣ 2️⃣6️⃣ 2️⃣8️⃣ 2️⃣7️⃣
+2️⃣1️⃣ 1️⃣5️⃣ 2️⃣0️⃣ 1️⃣0️⃣
+1️⃣1️⃣ 1️⃣2️⃣ 1️⃣3️⃣ 1️⃣4️⃣
+0️⃣5️⃣ 2️⃣2️⃣ 3️⃣5️⃣ 0️⃣9️⃣
+1️⃣9️⃣ 1️⃣6️⃣ 1️⃣8️⃣ 1️⃣7️⃣
 https://duotrigordle.com/
 </pre>
 
