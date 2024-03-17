@@ -650,11 +650,18 @@ I wanted to have a graphical visualization so the following JavaScript can be us
 ![Duotrigordle results as a graphical output using block length 8](images/duotrigordle-results_8.png)
 
 ```js
+// Previous version
+board_selector = "_board_oakqo_1"
+cell_selector = "_cell_oakqo_100"
+// Version as of 2024-03-17
+board_selector = "_board_lm2g4_1"
+cell_selector = "_cell_lm2g4_100"
+
 block_length = 8 // Use 1 for the smallest possible image or higher integers to increase the overall image size
 // Note that borders will always be 1 pixel wide regardless of block_length setting above 
 
 // Get a collection of the 32 boards
-boards_coll = document.getElementsByClassName("_board_oakqo_1");
+boards_coll = document.getElementsByClassName(board_selector);
 
 // Prepare an empty array to which we will add the colors based on guesses
 boards_colors =  new Array()
@@ -667,7 +674,7 @@ for (b = 0; b < boards_coll.length; b++) {
 	
 	// Get a collection of "cells" belonging to this board - each will have two class names
 	// one constant, and one variable that tells us which color the cell is
-	cells_coll = boards_coll[b].getElementsByClassName("_cell_oakqo_100");
+	cells_coll = boards_coll[b].getElementsByClassName(cell_selector);
 	//console.log(`Board ${b+1}, # rows = ${cells_coll.length/5}`)
 	
 	for (col=0; col < 5; col++) { // Cycle through each column of 5 letters (* 4 pixels)
