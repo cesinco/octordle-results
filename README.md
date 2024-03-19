@@ -651,17 +651,22 @@ I wanted to have a graphical visualization so the following JavaScript can be us
 
 ```js
 // Previous version
-board_selector = "_board_oakqo_1"
-cell_selector = "_cell_oakqo_100"
+//board_selector = "_board_oakqo_1"
+//cell_selector = "_cell_oakqo_100"
 // Version as of 2024-03-17
-board_selector = "_board_lm2g4_1"
-cell_selector = "_cell_lm2g4_100"
+//board_selector = "_board_lm2g4_1"
+//cell_selector = "_cell_lm2g4_100"
+// As you can see from above, the game would constantly change class names for specific elements in the DOM
+// This was not sustainable, so instead of using getElementsByClassName with a staic value for the class
+// we can use querySelectorAll which allows for searching by =, contains, starts with, ends with (or their negations) syntax
 
 block_length = 8 // Use 1 for the smallest possible image or higher integers to increase the overall image size
 // Note that borders will always be 1 pixel wide regardless of block_length setting above 
 
 // Get a collection of the 32 boards
-boards_coll = document.getElementsByClassName(board_selector);
+// Previous version(s)
+//boards_coll = document.getElementsByClassName(board_selector);
+boards_coll = document.querySelectorAll('[class^="_board_"]')
 
 // Prepare an empty array to which we will add the colors based on guesses
 boards_colors =  new Array()
@@ -674,7 +679,9 @@ for (b = 0; b < boards_coll.length; b++) {
 	
 	// Get a collection of "cells" belonging to this board - each will have two class names
 	// one constant, and one variable that tells us which color the cell is
-	cells_coll = boards_coll[b].getElementsByClassName(cell_selector);
+	// Previous version(s)
+	//cells_coll = boards_coll[b].getElementsByClassName(cell_selector);
+	cells_coll = boards_coll[b].querySelectorAll('[class^="_cell_"]')
 	//console.log(`Board ${b+1}, # rows = ${cells_coll.length/5}`)
 	
 	for (col=0; col < 5; col++) { // Cycle through each column of 5 letters (* 4 pixels)
